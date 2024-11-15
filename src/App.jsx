@@ -1,9 +1,12 @@
 import './App.css';
+import SearchEngine from './components/SearchEngine';
+import WeatherCard from './components/WeatherCard';
 
 function App() {
   return (
     <>
-      <div>hi</div>
+      <SearchEngine />
+      <WeatherCard />
     </>
   );
 }
