@@ -6,6 +6,13 @@ const useFetch = (url) => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(async () => {
+    if (!url) {
+      setData(null);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     setLoading(true);
     setData(null);
     setError(null);
@@ -27,7 +34,7 @@ const useFetch = (url) => {
   }, [url]);
 
   useEffect(() => {
-    fetchData();
+    fetchData(); 
   }, [fetchData]);
 
   return { data, error, loading, refetch: fetchData };
