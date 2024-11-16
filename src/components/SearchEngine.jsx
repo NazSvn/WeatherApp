@@ -13,12 +13,15 @@ const SearchEngine = () => {
   const [cities, setCities] = useState([]);
   const [cache, setCache] = useState({});
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { setSelectedCity } = useWeatherContext();
 
   const [requestCount, setRequestCount] = useState(0);
 
   const inputRef = useRef();
+  const dropdownRef = useRef();
+
 
   const { data, loading, error } = useFetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5&language=en&format=json`
@@ -30,6 +33,7 @@ const SearchEngine = () => {
       setInput('');
       setCities([]);
       setSelectedIndex(-1);
+      setIsDropdownOpen(false);
       inputRef.current.blur();
     },
     [setSelectedCity]
@@ -41,6 +45,7 @@ const SearchEngine = () => {
         case 'Escape':
           setInput('');
           setCities([]);
+          setIsDropdownOpen(false);
           inputRef.current.blur();
           break;
         case 'Enter':
@@ -101,6 +106,7 @@ const SearchEngine = () => {
       if (!foundInCache) {
         setQuery(trimedInput);
       }
+      setIsDropdownOpen(true);
     }, DEBOUNCE_DELAY);
     return () => clearTimeout(debounceTimer);
   }, [input, checkAndUpdateFromCache]);
@@ -121,52 +127,60 @@ const SearchEngine = () => {
   }, [data, query]);
 
   return (
-    <>
-      <div>
-        {loading && <div>Loading...</div>}
-        {error && (
-          <div>
-            <div>{error}</div>
-          </div>
-        )}
+    <div
+      className='search-container'
+      ref={dropdownRef}
+    >
+      <div className='search-input-wrapper'>
         <input
           ref={inputRef}
           type='text'
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => handleQuery(e)}
+          onKeyDown={handleQuery}
           placeholder='Search for a city'
+          className='search-input'
+          aria-label='Search for a city'
+          onFocus={() =>
+            input.length >= MIN_SEARCH_LENGTH && setIsDropdownOpen(true)
+          }
         />
-        <div>
-          {input.length > 0 && input.length < 2 && (
-            <div className='text-sm text-gray-600 mt-1'>
-              Please type at least 2 characters to search
+        {loading && <div className='loading-indicator'>Loading...</div>}
+      </div>
+
+      {error && (
+        <div className='error-message'>
+          Failed to fetch cities. Please try again.
+        </div>
+      )}
+
+      {input.length > 0 && input.length < MIN_SEARCH_LENGTH && (
+        <div className='min-chars-notice'>
+          Please type at least {MIN_SEARCH_LENGTH} characters to search
             </div>
           )}
-          {cities.length > 0 && (
-            <div>
-              <ul>
-                {cities.map((city, i) => (
+
+      {isDropdownOpen && cities.length > 0 && (
+        <ul
+          className='cities-dropdown'
+          role='listbox'
+        >
+          {cities.map((city, index) => (
                   <li
                     key={`${city.latitude}-${city.longitude}`}
-                    style={{
-                      border: selectedIndex === i ? '1px red solid' : '',
-                    }}
+              className={`city-item ${
+                selectedIndex === index ? 'selected' : ''
+              }`}
                     onClick={() => handleSelection(city)}
+              role='option'
+              aria-selected={selectedIndex === index}
                   >
                     {city.name}, {city.country}
                   </li>
                 ))}
               </ul>
-            </div>
           )}
-          {/* Debug info - remove in production */}
-          <div className='text-xs text-gray-500 mt-1'>
-            API calls made: {requestCount}
-          </div>
-        </div>
       </div>
-    </>
   );
 };
 
