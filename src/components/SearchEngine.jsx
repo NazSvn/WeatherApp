@@ -17,14 +17,15 @@ const SearchEngine = () => {
 
   const { setSelectedCity } = useWeatherContext();
 
-  const [requestCount, setRequestCount] = useState(0);
-
   const inputRef = useRef();
   const dropdownRef = useRef();
 
+  const shouldFetch = query.length >= MIN_SEARCH_LENGTH;
 
   const { data, loading, error } = useFetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5&language=en&format=json`
+    shouldFetch
+      ? `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5&language=en&format=json`
+      : null
   );
 
   const handleSelection = useCallback(
@@ -121,8 +122,6 @@ const SearchEngine = () => {
         },
       }));
       setCities(data.results);
-
-      setRequestCount((prev) => prev + 1);
     }
   }, [data, query]);
 
@@ -157,8 +156,8 @@ const SearchEngine = () => {
       {input.length > 0 && input.length < MIN_SEARCH_LENGTH && (
         <div className='min-chars-notice'>
           Please type at least {MIN_SEARCH_LENGTH} characters to search
-            </div>
-          )}
+        </div>
+      )}
 
       {isDropdownOpen && cities.length > 0 && (
         <ul
@@ -166,21 +165,21 @@ const SearchEngine = () => {
           role='listbox'
         >
           {cities.map((city, index) => (
-                  <li
-                    key={`${city.latitude}-${city.longitude}`}
+            <li
+              key={`${city.latitude}-${city.longitude}`}
               className={`city-item ${
                 selectedIndex === index ? 'selected' : ''
               }`}
-                    onClick={() => handleSelection(city)}
+              onClick={() => handleSelection(city)}
               role='option'
               aria-selected={selectedIndex === index}
-                  >
-                    {city.name}, {city.country}
-                  </li>
-                ))}
-              </ul>
-          )}
-      </div>
+            >
+              {city.name}, {city.country}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
