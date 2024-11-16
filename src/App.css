@@ -59,3 +59,66 @@
 .weather-row:last-child {
   border-bottom: none;
 }
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.loading-indicator {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cities-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  color: black;
+  list-style: none;
+  padding: 0;
+
+}
+
+.city-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.city-item:hover,
+.city-item.selected {
+  background: #f0f0f0;
+}
+
+.error-message {
+  color: red;
+  margin-top: 4px;
+}
+
+.min-chars-notice {
+  color: #666;
+  margin-top: 4px;
+  font-size: 0.875rem;
+}
