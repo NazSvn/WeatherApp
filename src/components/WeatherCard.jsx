@@ -1,5 +1,5 @@
-import useWeatherContext from './hooks/useWeatherContext';
-import useFetch from './hooks/useFetch';
+import useWeatherContext from '../hooks/useWeatherContext';
+import useFetch from '../hooks/useFetch';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const CACHE_AGE_LIMIT = 120 * 60 * 1000;
