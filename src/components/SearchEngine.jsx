@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useState } from 'react';
-import useFetch from './hooks/useFetch';
-import useWeatherContext from './hooks/useWeatherContext';
+import useFetch from '../hooks/useFetch';
+import useWeatherContext from '../hooks/useWeatherContext';
 
 const CAHCE_AGE_LIMIT = 120 * 60 * 1000;
 const MIN_SEARCH_LENGTH = 2;
