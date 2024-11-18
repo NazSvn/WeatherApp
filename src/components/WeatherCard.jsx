@@ -142,6 +142,13 @@ const WeatherCard = () => {
               </div>
 
               <div className='weather-row'>
+                <span>Code:</span>
+                <span>
+                  {weatherCodeMap[weatherData.current.weathercode].description}
+                </span>
+              </div>
+
+              <div className='weather-row'>
                 <span>Humidity:</span>
                 <span>
                   {weatherData.current.relative_humidity_2m}
@@ -166,40 +173,89 @@ const WeatherCard = () => {
               </div>
             </div>
 
-            <div
-              className='weather-hourly'
-              style={{ color: 'black' }}
-            >
-              <h3>Next 24 Hours</h3>
+            <div className='weather-hourly'>
+              <h3>24-Hours forecast</h3>
               <div className='hourly-forecast'>
-                {[...Array(24)].map((_, i) => {
-                  const timeString = new Date(
-                    weatherData.hourly.time[i]
-                  ).toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    hour12: true,
-                  });
+                {(() => {
+                  const currentTime = new Date();
+                  const currentIndex = weatherData.hourly.time.findIndex(
+                    (time) => {
+                      const forecastTime = new Date(time);
 
-                  return (
-                    <div
-                      key={i}
-                      className='hourly-item'
-                    >
-                      <div className='time'>{timeString}</div>
-                      <div className='temp'>
-                        {Math.round(weatherData.hourly.temperature_2m[i])}°
-                      </div>
-                      <div className='feels-like'>
-                        Feels like:{' '}
-                        {Math.round(weatherData.hourly.apparent_temperature[i])}
-                        °
-                      </div>
-                      <div className='precipitation'>
-                        {weatherData.hourly.precipitation_probability[i]}% rain
-                      </div>
-                    </div>
+                      return (
+                        forecastTime.getHours() === currentTime.getHours() &&
+                        forecastTime.getDate() === forecastTime.getDate()
+                      );
+                    }
                   );
-                })}
+
+                  return Array.from({ length: 24 }, (_, i) => {
+                    const hourIndex =
+                      (currentIndex + i) % weatherData.hourly.time.length;
+
+                    const timeString = new Date(
+                      weatherData.hourly.time[hourIndex]
+                    ).toLocaleTimeString('en-US', {
+                      hour: 'numeric',
+                      hour12: true,
+                    });
+
+                    const weathercode =
+                      weatherData.hourly.weathercode[hourIndex];
+                    const weather = weatherCodeMap[weathercode];
+
+                    const precipProb =
+                      weatherData.hourly.precipitation_probability[hourIndex];
+
+                    let precipText = 'No precipitation';
+
+                    const PRECIPITATION_THRESHOLD = 30;
+
+                    if (precipProb >= PRECIPITATION_THRESHOLD) {
+                      precipText = `${precipProb}% chance of precipitation`;
+                    } else if (precipProb > 0 && weather.precipitation) {
+                      precipText = `${precipProb}% chance of ${weather.precipitation}`;
+                    }
+
+                    return (
+                      <div
+                        key={hourIndex}
+                        className={`hourly-item ${
+                          i === 0 ? 'current-hour' : ''
+                        }`}
+                      >
+                        <div className='time'>
+                          {i === 0 ? 'Now' : timeString}
+                        </div>
+                        <div className='temp'>
+                          {Math.round(
+                            weatherData.hourly.temperature_2m[hourIndex]
+                          )}
+                          °
+                        </div>
+                        <div className='weather-description'>
+                          {weather.description}
+                        </div>
+                        <div className='feels-like'>
+                          Feels like:
+                          {Math.round(
+                            weatherData.hourly.apparent_temperature[hourIndex]
+                          )}
+                          °
+                        </div>
+                        <div
+                          className={`precipitation ${
+                            precipProb > PRECIPITATION_THRESHOLD
+                              ? 'significant'
+                              : ''
+                          }`}
+                        >
+                          {precipText}
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             </div>
           </div>
