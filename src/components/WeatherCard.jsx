@@ -25,6 +25,43 @@ const WeatherCard = () => {
 
   const { data: fetchedWeatherData, loading, error } = useFetch(weatherApiUrl);
 
+  const weatherCodeMap = {
+    0: { description: 'Clear sky', precipitation: null },
+    1: { description: 'Mainly clear', precipitation: null },
+    2: { description: 'Partly cloudy', precipitation: null },
+    3: { description: 'Overcast', precipitation: null },
+    45: { description: 'Foggy', precipitation: null },
+    48: { description: 'Depositing rime fog', precipitation: null },
+    51: { description: 'Light drizzle', precipitation: 'drizzle' },
+    53: { description: 'Moderate drizzle', precipitation: 'drizzle' },
+    55: { description: 'Dense drizzle', precipitation: 'drizzle' },
+    56: {
+      description: 'Light freezing drizzle',
+      precipitation: 'freezing drizzle',
+    },
+    57: {
+      description: 'Dense freezing drizzle',
+      precipitation: 'freezing drizzle',
+    },
+    61: { description: 'Slight rain', precipitation: 'rain' },
+    63: { description: 'Moderate rain', precipitation: 'rain' },
+    65: { description: 'Heavy rain', precipitation: 'rain' },
+    66: { description: 'Light freezing rain', precipitation: 'freezing rain' },
+    67: { description: 'Heavy freezing rain', precipitation: 'freezing rain' },
+    71: { description: 'Slight snow fall', precipitation: 'snow' },
+    73: { description: 'Moderate snow fall', precipitation: 'snow' },
+    75: { description: 'Heavy snow fall', precipitation: 'snow' },
+    77: { description: 'Snow grains', precipitation: 'snow' },
+    80: { description: 'Slight rain showers', precipitation: 'rain' },
+    81: { description: 'Moderate rain showers', precipitation: 'rain' },
+    82: { description: 'Violent rain showers', precipitation: 'rain' },
+    85: { description: 'Slight snow showers', precipitation: 'snow' },
+    86: { description: 'Heavy snow showers', precipitation: 'snow' },
+    95: { description: 'Thunderstorm', precipitation: 'storm' },
+    96: { description: 'Thunderstorm with slight hail', precipitation: 'hail' },
+    99: { description: 'Thunderstorm with heavy hail', precipitation: 'hail' },
+  };
+
   const checkCache = useCallback(
     (cityName) => {
       if (!cityName) return null;
