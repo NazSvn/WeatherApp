@@ -133,43 +133,56 @@ const WeatherCard = () => {
             </div>
 
             <div className='weather-data'>
-              <div className='weather-row'>
-                <span>Temperature:</span>
-                <span>
-                  {weatherData.current.temperature_2m}
+              <div className='weather-temp'>
+                <div className='weather-temp-value'>
+                  {Math.round(weatherData.current.temperature_2m)}
+                </div>
+                <span className='weather-temp-unit'>
                   {weatherData.current_units.temperature_2m}
                 </span>
               </div>
+              <div className='weather-data-rows'>
+                <div className='weather-row'>
+                  <span>Real feel:</span>
+                  <span>
+                    {weatherData.current.apparent_temperature}
+                    {weatherData.current_units.temperature_2m}
+                  </span>
+                </div>
 
-              <div className='weather-row'>
-                <span>Code:</span>
-                <span>
-                  {weatherCodeMap[weatherData.current.weathercode].description}
-                </span>
-              </div>
+                <div className='weather-row'>
+                  <span>Code:</span>
+                  <span>
+                    {
+                      weatherCodeMap[weatherData.current.weathercode]
+                        .description
+                    }
+                  </span>
+                </div>
 
-              <div className='weather-row'>
-                <span>Humidity:</span>
-                <span>
-                  {weatherData.current.relative_humidity_2m}
-                  {weatherData.current_units.relative_humidity_2m}
-                </span>
-              </div>
+                <div className='weather-row'>
+                  <span>Humidity:</span>
+                  <span>
+                    {weatherData.current.relative_humidity_2m}
+                    {weatherData.current_units.relative_humidity_2m}
+                  </span>
+                </div>
 
-              <div className='weather-row'>
-                <span>Wind Speed:</span>
-                <span>
-                  {weatherData.current.windspeed_10m}
-                  {weatherData.current_units.windspeed_10m}
-                </span>
-              </div>
+                <div className='weather-row'>
+                  <span>Wind Speed:</span>
+                  <span>
+                    {weatherData.current.windspeed_10m}
+                    {weatherData.current_units.windspeed_10m}
+                  </span>
+                </div>
 
-              <div className='weather-row'>
-                <span>Wind Direction:</span>
-                <span>
-                  {weatherData.current.winddirection_10m}
-                  {weatherData.current_units.winddirection_10m}
-                </span>
+                <div className='weather-row'>
+                  <span>Wind Direction:</span>
+                  <span>
+                    {weatherData.current.winddirection_10m}
+                    {weatherData.current_units.winddirection_10m}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -211,10 +224,13 @@ const WeatherCard = () => {
 
                     const PRECIPITATION_THRESHOLD = 30;
 
-                    if (precipProb >= PRECIPITATION_THRESHOLD) {
-                      precipText = `${precipProb}% chance of precipitation`;
+                    if (
+                      precipProb >= PRECIPITATION_THRESHOLD &&
+                      !weather.precipitation
+                    ) {
+                      precipText = 'chance of precipitation';
                     } else if (precipProb > 0 && weather.precipitation) {
-                      precipText = `${precipProb}% chance of ${weather.precipitation}`;
+                      precipText = `chance of ${weather.precipitation}`;
                     }
 
                     return (
@@ -227,30 +243,29 @@ const WeatherCard = () => {
                         <div className='time'>
                           {i === 0 ? 'Now' : timeString}
                         </div>
-                        <div className='temp'>
+                        <div className='hourly-item-box temp'>
                           {Math.round(
                             weatherData.hourly.temperature_2m[hourIndex]
                           )}
                           °
                         </div>
-                        <div className='weather-description'>
+
+                        <div className='hourly-item-box weather-description'>
                           {weather.description}
                         </div>
-                        <div className='feels-like'>
-                          Feels like:
-                          {Math.round(
-                            weatherData.hourly.apparent_temperature[hourIndex]
-                          )}
-                          °
-                        </div>
+
                         <div
-                          className={`precipitation ${
+                          className={`hourly-item-box precipitation ${
                             precipProb > PRECIPITATION_THRESHOLD
                               ? 'significant'
                               : ''
                           }`}
                         >
-                          {precipText}
+                          <span className='prec-prob'>
+                            {precipProb}
+                            <span>%</span>
+                          </span>
+                          <span className='prec-text'>{precipText}</span>
                         </div>
                       </div>
                     );
