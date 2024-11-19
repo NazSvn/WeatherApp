@@ -17,7 +17,7 @@ const WeatherCard = () => {
       `latitude=${selectedCity.latitude}&` +
       `longitude=${selectedCity.longitude}&` +
       'current=temperature_2m,weathercode,windspeed_10m,winddirection_10m,relative_humidity_2m,apparent_temperature&' +
-      'hourly=temperature_2m,weathercode,precipitation_probability,apparent_temperature&' +
+      'hourly=temperature_2m,weathercode,precipitation_probability&' +
       'daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max,sunrise,sunset&' +
       'timezone=auto'
     );
