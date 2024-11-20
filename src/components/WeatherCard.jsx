@@ -1,6 +1,10 @@
 import useWeatherContext from '../hooks/useWeatherContext';
 import useFetch from '../hooks/useFetch';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import HourlyForecast from './HourlyForecast';
+import CurrentWeather from './CurrentWeather';
+import LocationHeader from './LocationHeader';
+import DailyForecast from './DailyForecast';
 
 const CACHE_AGE_LIMIT = 120 * 60 * 1000;
 
@@ -24,43 +28,6 @@ const WeatherCard = () => {
   }, [selectedCity?.latitude, selectedCity?.longitude]);
 
   const { data: fetchedWeatherData, loading, error } = useFetch(weatherApiUrl);
-
-  const weatherCodeMap = {
-    0: { description: 'Clear sky', precipitation: null },
-    1: { description: 'Mainly clear', precipitation: null },
-    2: { description: 'Partly cloudy', precipitation: null },
-    3: { description: 'Overcast', precipitation: null },
-    45: { description: 'Foggy', precipitation: null },
-    48: { description: 'Depositing rime fog', precipitation: null },
-    51: { description: 'Light drizzle', precipitation: 'drizzle' },
-    53: { description: 'Moderate drizzle', precipitation: 'drizzle' },
-    55: { description: 'Dense drizzle', precipitation: 'drizzle' },
-    56: {
-      description: 'Light freezing drizzle',
-      precipitation: 'freezing drizzle',
-    },
-    57: {
-      description: 'Dense freezing drizzle',
-      precipitation: 'freezing drizzle',
-    },
-    61: { description: 'Slight rain', precipitation: 'rain' },
-    63: { description: 'Moderate rain', precipitation: 'rain' },
-    65: { description: 'Heavy rain', precipitation: 'rain' },
-    66: { description: 'Light freezing rain', precipitation: 'freezing rain' },
-    67: { description: 'Heavy freezing rain', precipitation: 'freezing rain' },
-    71: { description: 'Slight snow fall', precipitation: 'snow' },
-    73: { description: 'Moderate snow fall', precipitation: 'snow' },
-    75: { description: 'Heavy snow fall', precipitation: 'snow' },
-    77: { description: 'Snow grains', precipitation: 'snow' },
-    80: { description: 'Slight rain showers', precipitation: 'rain' },
-    81: { description: 'Moderate rain showers', precipitation: 'rain' },
-    82: { description: 'Violent rain showers', precipitation: 'rain' },
-    85: { description: 'Slight snow showers', precipitation: 'snow' },
-    86: { description: 'Heavy snow showers', precipitation: 'snow' },
-    95: { description: 'Thunderstorm', precipitation: 'storm' },
-    96: { description: 'Thunderstorm with slight hail', precipitation: 'hail' },
-    99: { description: 'Thunderstorm with heavy hail', precipitation: 'hail' },
-  };
 
   const checkCache = useCallback(
     (cityName) => {
@@ -109,173 +76,33 @@ const WeatherCard = () => {
 
       setWeatherData(fetchedWeatherData);
     }
-  }, [fetchedWeatherData, selectedCity?.name]);
+  }, [fetchedWeatherData, selectedCity?.name]); 
 
   if (!selectedCity) return null;
 
   return (
     <>
-      <div className='weather-card'>
-        {loading && (
+      {loading && (
+        <div className='weather-card'>
           <div className='loading-indicator'>Loading weather data...</div>
-        )}
-        {error && <div className='error-message'>{error}</div>}
+        </div>
+      )}
+      {error && (
+        <div className='weather-card'>
+          <div className='error-message'>{error}</div>
+        </div>
+      )}
 
-        {weatherData && (
+      {weatherData && !loading && !error && (
+        <div className='weather-card'>
           <div className='weather-info'>
-            <div className='location-header'>
-              <h2>
-                {selectedCity.name}, {selectedCity.country}
-              </h2>
-              <p className='coordinates'>
-                {selectedCity.latitude}°N, {selectedCity.longitude}°E
-              </p>
-            </div>
-
-            <div className='weather-data'>
-              <div className='weather-temp'>
-                <div className='weather-temp-value'>
-                  {Math.round(weatherData.current.temperature_2m)}
-                </div>
-                <span className='weather-temp-unit'>
-                  {weatherData.current_units.temperature_2m}
-                </span>
-              </div>
-              <div className='weather-data-rows'>
-                <div className='weather-row'>
-                  <span>Real feel:</span>
-                  <span>
-                    {weatherData.current.apparent_temperature}
-                    {weatherData.current_units.temperature_2m}
-                  </span>
-                </div>
-
-                <div className='weather-row'>
-                  <span>Code:</span>
-                  <span>
-                    {
-                      weatherCodeMap[weatherData.current.weathercode]
-                        .description
-                    }
-                  </span>
-                </div>
-
-                <div className='weather-row'>
-                  <span>Humidity:</span>
-                  <span>
-                    {weatherData.current.relative_humidity_2m}
-                    {weatherData.current_units.relative_humidity_2m}
-                  </span>
-                </div>
-
-                <div className='weather-row'>
-                  <span>Wind Speed:</span>
-                  <span>
-                    {weatherData.current.windspeed_10m}
-                    {weatherData.current_units.windspeed_10m}
-                  </span>
-                </div>
-
-                <div className='weather-row'>
-                  <span>Wind Direction:</span>
-                  <span>
-                    {weatherData.current.winddirection_10m}
-                    {weatherData.current_units.winddirection_10m}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className='weather-hourly'>
-              <h3>24-Hours forecast</h3>
-              <div className='hourly-forecast'>
-                {(() => {
-                  const currentTime = new Date();
-                  const currentIndex = weatherData.hourly.time.findIndex(
-                    (time) => {
-                      const forecastTime = new Date(time);
-
-                      return (
-                        forecastTime.getHours() === currentTime.getHours() &&
-                        forecastTime.getDate() === forecastTime.getDate()
-                      );
-                    }
-                  );
-
-                  return Array.from({ length: 24 }, (_, i) => {
-                    const hourIndex =
-                      (currentIndex + i) % weatherData.hourly.time.length;
-
-                    const timeString = new Date(
-                      weatherData.hourly.time[hourIndex]
-                    ).toLocaleTimeString('en-US', {
-                      hour: 'numeric',
-                      hour12: true,
-                    });
-
-                    const weathercode =
-                      weatherData.hourly.weathercode[hourIndex];
-                    const weather = weatherCodeMap[weathercode];
-
-                    const precipProb =
-                      weatherData.hourly.precipitation_probability[hourIndex];
-
-                    let precipText = 'No precipitation';
-
-                    const PRECIPITATION_THRESHOLD = 30;
-
-                    if (
-                      precipProb >= PRECIPITATION_THRESHOLD &&
-                      !weather.precipitation
-                    ) {
-                      precipText = 'chance of precipitation';
-                    } else if (precipProb > 0 && weather.precipitation) {
-                      precipText = `chance of ${weather.precipitation}`;
-                    }
-
-                    return (
-                      <div
-                        key={hourIndex}
-                        className={`hourly-item ${
-                          i === 0 ? 'current-hour' : ''
-                        }`}
-                      >
-                        <div className='time'>
-                          {i === 0 ? 'Now' : timeString}
-                        </div>
-                        <div className='hourly-item-box temp'>
-                          {Math.round(
-                            weatherData.hourly.temperature_2m[hourIndex]
-                          )}
-                          °
-                        </div>
-
-                        <div className='hourly-item-box weather-description'>
-                          {weather.description}
-                        </div>
-
-                        <div
-                          className={`hourly-item-box precipitation ${
-                            precipProb > PRECIPITATION_THRESHOLD
-                              ? 'significant'
-                              : ''
-                          }`}
-                        >
-                          <span className='prec-prob'>
-                            {precipProb}
-                            <span>%</span>
-                          </span>
-                          <span className='prec-text'>{precipText}</span>
-                        </div>
-                      </div>
-                    );
-                  });
-                })()}
-              </div>
-            </div>
+            <LocationHeader selectedCity={selectedCity} />
+            <CurrentWeather weatherData={weatherData} />
+            <HourlyForecast weatherData={weatherData} />
+            <DailyForecast weatherData={weatherData} />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
