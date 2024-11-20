@@ -22,6 +22,10 @@
   padding: 16px;
 }
 
+.loading-indicator {
+  color: black;
+}
+
 .error-message {
   color: #dc2626;
 }
@@ -47,13 +51,14 @@
 
 .weather-data {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  align-items: center;
 }
 
 .weather-data-rows {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  width: 60%;
   color: rgb(0, 0, 0);
 }
 
@@ -67,7 +72,6 @@
 }
 
 .weather-temp-value {
-
   font-size: 5rem;
   grid-row: 1;
   grid-column: 1;
@@ -90,7 +94,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 4px 0;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -98,13 +102,8 @@
   border-bottom: none;
 }
 
-
-
-.loading-indicator {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+.weather-row-descr {
+  font-size: 0.8rem;
 }
 
 .search-container {
@@ -259,6 +258,11 @@
   height: 40%;
 }
 
+.hourly-item .no-precipitation {
+  width: 100%;
+  text-align: justify;
+}
+
 .prec-prob {
   width: 30%;
   align-content: center;
@@ -276,6 +280,12 @@
   height: 100%;
 }
 
+.hourly-item .no-precipitation .prec-text {
+  text-align: center;
+  width: 100%;
+  height: 40px;
+}
+
 .hourly-forecast::-webkit-scrollbar {
   height: 6px;
 }
@@ -291,4 +301,26 @@
 
 .hourly-forecast::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.weather-daily {
+  background: #e2d8c6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 0.875rem;
+  color: black;
+
+}
+
+.weather-daily-rows {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather-daily-temp {
+  width: 25%;
 }
