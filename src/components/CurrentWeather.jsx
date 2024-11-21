@@ -3,6 +3,31 @@ import { weatherCodeMap } from '../services/weatherCodeMap';
 
 const CurrentWeather = ({ weatherData }) => {
   if (!weatherData || !weatherData.current) return null;
+  function getCardinalDirection(windDirection) {
+    const directions = [
+      'N',
+      'NNE',
+      'NE',
+      'ENE',
+      'E',
+      'ESE',
+      'SE',
+      'SSE',
+      'S',
+      'SSW',
+      'SW',
+      'WSW',
+      'W',
+      'WNW',
+      'NW',
+      'NNW',
+    ];
+    const sectors = 16;
+    const sectorSize = 360 / sectors;
+    const index = Math.round(windDirection / sectorSize) % sectors;
+    return directions[index];
+  }
+  
   return (
     <>
       <div className='weather-data'>
@@ -41,7 +66,7 @@ const CurrentWeather = ({ weatherData }) => {
           <div className='weather-row'>
             <span className='weather-row-descr'>Wind Speed:</span>
             <span>
-              {weatherData.current.windspeed_10m}
+              {weatherData.current.windspeed_10m}{' '}
               {weatherData.current_units.windspeed_10m}
             </span>
           </div>
@@ -49,8 +74,7 @@ const CurrentWeather = ({ weatherData }) => {
           <div className='weather-row'>
             <span className='weather-row-descr'>Wind Direction:</span>
             <span>
-              {weatherData.current.winddirection_10m}
-              {weatherData.current_units.winddirection_10m}
+              {getCardinalDirection(weatherData.current.winddirection_10m)}
             </span>
           </div>
         </div>
@@ -60,7 +84,6 @@ const CurrentWeather = ({ weatherData }) => {
 };
 
 CurrentWeather.propTypes = {
-  weatherCodeMap: PropTypes.object.isRequired,
   weatherData: PropTypes.object.isRequired,
 };
 export default CurrentWeather;
