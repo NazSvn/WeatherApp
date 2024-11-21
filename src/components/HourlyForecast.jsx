@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { weatherCodeMap } from '../services/weatherCodeMap';
+import WeatherIcon from '../services/weatherIconMap';
 
 const HourlyForecast = ({ weatherData }) => {
   if (!weatherData || !weatherData.hourly) {
@@ -62,7 +63,12 @@ const HourlyForecast = ({ weatherData }) => {
                 </div>
 
                 <div className='hourly-item-box weather-description'>
-                  {weather.description}
+                  <span>
+                    <WeatherIcon
+                      weatherCode={weathercode}
+                      size={40}
+                    />
+                  </span>
                 </div>
 
                 <div
@@ -90,6 +96,5 @@ const HourlyForecast = ({ weatherData }) => {
 };
 HourlyForecast.propTypes = {
   weatherData: PropTypes.object.isRequired,
-  weatherCodeMap: PropTypes.object.isRequired,
 };
 export default HourlyForecast;
