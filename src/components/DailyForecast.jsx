@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { weatherCodeMap } from '../services/weatherCodeMap';
+import WeatherIcon from '../services/weatherIconMap';
 
 const DailyForecast = ({ weatherData }) => {
   if (!weatherData.daily) return null;
@@ -29,7 +30,7 @@ const DailyForecast = ({ weatherData }) => {
             ) {
               precipText = 'chance of precipitation';
             } else if (precipProb > 0 && weather.precipitation) {
-              precipText = `chance of ${weather.precipitation}`;
+              precipText = `${weather.precipitation} chance`;
             }
 
             return (
@@ -37,14 +38,24 @@ const DailyForecast = ({ weatherData }) => {
                 key={forecastDay}
                 className='weather-daily-rows'
               >
-                <div>{dayName}</div>
-                <div>{weather.description}</div>
+                <div className='weather-daily-day'>{dayName}</div>
+                <div className='weather-daily-description'>
+                  <div className='description-text'>{weather.description} </div>
+                  <div>
+                    <WeatherIcon weatherCode={weathercode} size={35}/>
+                  </div>
+                </div>
 
-                <div>
+                <div
+                  className={`weather-daily-precipitation ${
+                    precipProb >= PRECIPITATION_THRESHOLD ? 'significant' : ''
+                  }`}
+                >
                   {precipText !== 'No precipitation' && (
                     <span>{precipProb}%</span>
                   )}
-                  {precipText}
+
+                  <span className='precip-text'>{precipText}</span>
                 </div>
                 <div className='weather-daily-temp'>
                   <span>
@@ -68,7 +79,6 @@ const DailyForecast = ({ weatherData }) => {
 
 DailyForecast.propTypes = {
   weatherData: PropTypes.object.isRequired,
-  weatherCodeMap: PropTypes.object.isRequired,
 };
 
 export default DailyForecast;
