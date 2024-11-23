@@ -1,0 +1,85 @@
+.weather-daily {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-altervative);
+  margin-top: var(--spacing-lg);
+}
+
+.weather-daily-day {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  width: 10%;
+  padding: 0 var(--spacing-xs);
+  margin-right: var(--spacing-md);
+  font-weight: bold;
+  text-align: left;
+}
+
+.weather-daily-rows {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+.weather-daily-description {
+  display: flex;
+  font-size: var(--font-size-xs);
+  gap: var(--gap-sm);
+  align-items: center;
+  justify-content: space-between;
+  width: 35%;
+  margin-right: auto;
+}
+
+.description-text {
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+}
+
+.weather-daily-precipitation {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.precip-text {
+  font-size: var(--font-size-xs);
+}
+
+.weather-daily-temp {
+  margin-left: auto;
+  width: 20%;
+  white-space: nowrap;
+}
+
+@media screen and (min-width: 480px) {
+  #root {
+    padding: var(--spacing-md);
+  }
+
+  .weather-daily {
+    padding: 6px;
+    font-size: var(--font-size-base);
+  }
+
+  .precip-text {
+    height: min-content;
+    line-height: 0.9;
+    font-size: var(--font-size-sm);
+  }
+
+  .description-text {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,17 @@
+.location-header {
+
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.location-header h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+}
+
+.coordinates {
+  margin: 0px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}

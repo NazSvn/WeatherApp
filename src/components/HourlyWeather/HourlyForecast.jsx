@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { weatherCodeMap } from '../services/weatherCodeMap';
-import WeatherIcon from '../services/weatherIconMap';
+import { weatherCodeMap } from '../../services/weatherCodeMap';
+import WeatherIcon from '../../services/weatherIconMap';
+import './hourlyForecast.css';
 
 const HourlyForecast = ({ weatherData }) => {
   if (!weatherData || !weatherData.hourly) {

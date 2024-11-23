@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import './locationHeader.css';
 
 const LocationHeader = ({ selectedCity }) => {
   if (!selectedCity) return null;

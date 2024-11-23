@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { weatherCodeMap } from '../services/weatherCodeMap';
-import WeatherIcon from '../services/weatherIconMap';
+import { weatherCodeMap } from '../../services/weatherCodeMap';
+import WeatherIcon from '../../services/weatherIconMap';
+import './dailyForecast.css'
 
 const DailyForecast = ({ weatherData }) => {
   if (!weatherData.daily) return null;

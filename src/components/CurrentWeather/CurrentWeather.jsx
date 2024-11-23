@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { weatherCodeMap } from '../services/weatherCodeMap';
+import { weatherCodeMap } from '../../services/weatherCodeMap';
+import './currentWeather.css';
 
 const CurrentWeather = ({ weatherData }) => {
   if (!weatherData || !weatherData.current) return null;
@@ -27,7 +28,7 @@ const CurrentWeather = ({ weatherData }) => {
     const index = Math.round(windDirection / sectorSize) % sectors;
     return directions[index];
   }
-  
+
   return (
     <>
       <div className='weather-data'>

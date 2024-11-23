@@ -1,0 +1,9 @@
+.weather-card {
+  background: var(--background);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  max-width: var(--max-width-card);
+  margin: 10% auto;
+}
+

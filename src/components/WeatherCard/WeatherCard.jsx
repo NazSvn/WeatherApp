@@ -1,10 +1,11 @@
-import useWeatherContext from '../hooks/useWeatherContext';
-import useFetch from '../hooks/useFetch';
+import useWeatherContext from '../../hooks/useWeatherContext';
+import useFetch from '../../hooks/useFetch';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import HourlyForecast from './HourlyForecast';
-import CurrentWeather from './CurrentWeather';
+import HourlyForecast from '../HourlyWeather/HourlyForecast';
+import CurrentWeather from '../CurrentWeather/CurrentWeather';
 import LocationHeader from './LocationHeader';
-import DailyForecast from './DailyForecast';
+import DailyForecast from '../DailyWeather/DailyForecast';
+import './weatherCard.css';
 
 const CACHE_AGE_LIMIT = 120 * 60 * 1000;
 
@@ -76,7 +77,7 @@ const WeatherCard = () => {
 
       setWeatherData(fetchedWeatherData);
     }
-  }, [fetchedWeatherData, selectedCity?.name]); 
+  }, [fetchedWeatherData, selectedCity?.name]);
 
   if (!selectedCity) return null;
 
