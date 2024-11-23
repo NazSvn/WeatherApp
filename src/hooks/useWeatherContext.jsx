@@ -1,6 +1,11 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
-export const WeatherContext = createContext(null);
+export const WeatherContext = createContext({
+  selectedCity: [],
+  setSelectedCity: () => {},
+  theme: 'light',
+  toggleTheme: () => {}, 
+});
 
 const useWeatherContext = () => {
   const context = useContext(WeatherContext);
