@@ -6,8 +6,7 @@ import CurrentWeather from '../CurrentWeather/CurrentWeather';
 import LocationHeader from './LocationHeader';
 import DailyForecast from '../DailyWeather/DailyForecast';
 import './weatherCard.css';
-
-const CACHE_AGE_LIMIT = 120 * 60 * 1000;
+import { CACHE_AGE_LIMIT } from '../../services/cacheAgeLimitConfig';
 
 const WeatherCard = () => {
   const { selectedCity } = useWeatherContext();
@@ -81,19 +80,27 @@ const WeatherCard = () => {
 
   if (!selectedCity) return null;
 
+  if (loading) {
+    return (
+      <div className='weather-card'>
+        <div className='loading-indicator'>Loading weather data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='weather-card'>
+        <div className='error-message'>{error}</div>
+      </div>
+    );
+  }
+
+
+  if (!weatherData) return null;
+
   return (
     <>
-      {loading && (
-        <div className='weather-card'>
-          <div className='loading-indicator'>Loading weather data...</div>
-        </div>
-      )}
-      {error && (
-        <div className='weather-card'>
-          <div className='error-message'>{error}</div>
-        </div>
-      )}
-
       {weatherData && !loading && !error && (
         <div className='weather-card'>
           <div className='weather-info'>
