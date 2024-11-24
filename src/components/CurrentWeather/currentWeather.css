@@ -2,6 +2,7 @@
   display: flex;
   gap: var(--gap-lg);
   align-items: center;
+  justify-content: center;
 }
 
 .weather-data-rows {
@@ -11,13 +12,19 @@
   color: var(--color-text-primary);
 }
 
-.weather-temp {
+.weather-temp-container {
+  display: flex;
+  flex-direction: column;
   width: 35%;
+}
+
+.weather-temp {
+  width: 100%;
+  height: 100px;
   color: var(--color-text-primary);
   display: grid;
   align-items: start;
   justify-content: center;
-
 }
 
 .weather-temp-value {
@@ -36,7 +43,6 @@
   align-self: start;
   position: relative;
   top: 1.5rem;
-
 }
 
 .weather-row {
@@ -53,4 +59,18 @@
 
 .weather-row-descr {
   font-size: var(--font-size-sm);
+}
+
+.weather-temp-descr {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: var(--color-text-primary);
+  font-size: clamp(var(--font-size-xs),
+    var(--font-size-sm),
+    var(--font-size-base));
+}
+
+.weather-temp-text {
+  margin-right: var(--spacing-xs);
 }
