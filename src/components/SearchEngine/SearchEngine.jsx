@@ -3,10 +3,9 @@ import { useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import useWeatherContext from '../../hooks/useWeatherContext';
 import './searchEngine.css';
-
-const CAHCE_AGE_LIMIT = 120 * 60 * 1000;
-const MIN_SEARCH_LENGTH = 2;
-const DEBOUNCE_DELAY = 500;
+import { MIN_SEARCH_LENGTH } from '../../services/minSearchLength';
+import { DEBOUNCE_DELAY } from '../../services/debounceDelay';
+import { CACHE_AGE_LIMIT } from '../../services/cacheAgeLimitConfig';
 
 const SearchEngine = () => {
   const [input, setInput] = useState('');
