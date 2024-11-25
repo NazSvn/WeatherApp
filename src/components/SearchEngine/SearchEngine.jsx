@@ -82,7 +82,7 @@ const SearchEngine = () => {
 
       if (
         cachedResult &&
-        Date.now() - cachedResult.timestamp < CAHCE_AGE_LIMIT
+        Date.now() - cachedResult.timestamp < CACHE_AGE_LIMIT
       ) {
         console.log('usig cache:', search);
         setCities(cachedResult.data);
