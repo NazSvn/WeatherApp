@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { weatherCodeMap } from '../../services/weatherCodeMap';
 import WeatherIcon from '../../services/weatherIconMap';
-import './dailyForecast.css'
+import './dailyForecast.css';
 
 const DailyForecast = ({ weatherData }) => {
   if (!weatherData.daily) return null;
@@ -43,7 +43,11 @@ const DailyForecast = ({ weatherData }) => {
                 <div className='weather-daily-description'>
                   <div className='description-text'>{weather.description} </div>
                   <div>
-                    <WeatherIcon weatherCode={weathercode} size={35}/>
+                    <WeatherIcon
+                      weatherCode={weathercode}
+                      size={35}
+                      isDay={weatherData.current.is_day}
+                    />
                   </div>
                 </div>
 
