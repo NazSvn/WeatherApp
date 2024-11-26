@@ -68,6 +68,7 @@ const HourlyForecast = ({ weatherData }) => {
                     <WeatherIcon
                       weatherCode={weathercode}
                       size={40}
+                      isDay={weatherData.current.is_day}
                     />
                   </span>
                 </div>
