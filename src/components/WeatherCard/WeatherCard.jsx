@@ -39,8 +39,7 @@ const WeatherCard = () => {
       if (cachedResult) {
         const cacheAge = Date.now() - cachedResult.timestamp;
 
-        if (cacheAge < CACHE_AGE_LIMIT) {
-          console.log('using chachedWeater', cityName);
+        if (cacheAge < CACHE_AGE_LIMIT) { 
           return cachedResult.data;
         }
       }
