@@ -9,49 +9,209 @@ import {
   WiShowers,
   WiSnow,
   WiThunderstorm,
-  WiWindy, 
+  WiWindy,
+  WiNightClear,
+  WiNightCloudy,
+  WiNightFog,
+  WiNightRainMix,
+  WiNightRain,
+  WiNightSnow,
+  WiNightShowers,
+  WiNightHail,
+  WiNightThunderstorm,
 } from 'react-icons/wi';
+import { BsCloudDrizzle, BsCloudDrizzleFill } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { BsCloudDrizzle } from 'react-icons/bs';
 
-const WeatherIcon = ({ weatherCode, size = 48}) => {
-  const iconMap = {
-    0: <WiDaySunny size={size} style={{ color: '#FFC300'}}/>,
-    1: <WiDayCloudy size={size} style={{ color: '#87CEEB'}}/>,
-    2: <WiCloudy size={size} style={{ color: '#87CEEB'}}/>,
-    3: <WiCloudy size={size} style={{ color: '#979191'}}/>,
-    45: <WiFog size={size} style={{ color: '#A9A9A9'}}/>,
-    48: <WiWindy size={size} style={{ color: '#A9A9A9'}}/>,
-    51: <BsCloudDrizzle size={size} style={{ color: '#87CEFA'}}/>,
-    53: <BsCloudDrizzle size={size} style={{ color: '#87CEFA'}}/>,
-    55: <BsCloudDrizzle size={size} style={{ color: '#87CEFA'}}/>,
-    56: <WiRainMix size={size} style={{ color: '#00BFFF'}}/>,
-    57: <WiRainMix size={size} style={{ color: '#00BFFF'}}/>,
-    61: <WiRain size={size} style={{ color: '#4682B4'}}/>,
-    63: <WiRain size={size} style={{ color: '#4682B4'}}/>,
-    65: <WiRain size={size} style={{ color: '#1E90FF'}}/>,
-    66: <WiRain size={size} style={{ color: '#00CED1'}}/>,
-    67: <WiRain size={size} style={{ color: '#00CED1'}}/>,
-    71: <WiSnow size={size} style={{ color: '#bfd7f8'}}/>,
-    73: <WiSnow size={size} style={{ color: '#bfd7f8'}}/>,
-    75: <WiSnow size={size} style={{ color: '#a9cbf3'}}/>,
-    77: <WiSnow size={size} style={{ color: '#bfd7f8'}}/>,
-    80: <WiShowers size={size} style={{ color: '#4682B4'}}/>,
-    81: <WiShowers size={size} style={{ color: '#1E90FF'}}/>,
-    82: <WiShowers size={size} style={{ color: '#0000FF'}}/>,
-    85: <WiSnow size={size} style={{ color: '#bfd7f8'}}/>,
-    86: <WiSnow size={size} style={{ color: '#a9cbf3'}}/>,
-    95: <WiThunderstorm size={size} style={{ color: '#FFD700'}}/>,
-    96: <WiHail size={size} style={{ color: '#FFD700'}}/>,
-    99: <WiHail size={size} style={{ color: '#FFA500'}}/>,
-  };
+const iconMap = {
+  0: {
+    dayIcon: WiDaySunny,
+    nightIcon: WiNightClear,
+    dayColor: '#FFC300',
+    nightColor: '#8288a3',
+  },
+  1: {
+    dayIcon: WiDayCloudy,
+    nightIcon: WiNightCloudy,
+    dayColor: '#87CEEB',
+    nightColor: '#7d9ebd',
+  },
+  2: {
+    dayIcon: WiCloudy,
+    nightIcon: WiNightCloudy,
+    dayColor: '#87CEEB',
+    nightColor: '#564d8d',
+  },
+  3: {
+    dayIcon: WiCloudy,
+    nightIcon: WiNightCloudy,
+    dayColor: '#979191',
+    nightColor: '#617f9b',
+  },
+  45: {
+    dayIcon: WiFog,
+    nightIcon: WiNightFog,
+    dayColor: '#A9A9A9',
+    nightColor: '#4a4a4a',
+  },
+  48: { dayIcon: WiWindy, dayColor: '#A9A9A9' },
+  51: {
+    dayIcon: BsCloudDrizzle,
+    nightIcon: BsCloudDrizzleFill,
+    dayColor: '#87CEFA',
+    nightColor: '#8288a3',
+  },
+  53: {
+    dayIcon: BsCloudDrizzle,
+    nightIcon: BsCloudDrizzleFill,
+    dayColor: '#87CEFA',
+    nightColor: '#8288a3',
+  },
+  55: {
+    dayIcon: BsCloudDrizzle,
+    nightIcon: BsCloudDrizzleFill,
+    dayColor: '#87CEFA',
+    nightColor: '#8288a3',
+  },
+  56: {
+    dayIcon: WiRainMix,
+    nightIcon: WiNightRainMix,
+    dayColor: '#00BFFF',
+    nightColor: '#425769',
+  },
+  57: {
+    dayIcon: WiRainMix,
+    nightIcon: WiNightRainMix,
+    dayColor: '#00BFFF',
+    nightColor: '#3f506d',
+  },
+  61: {
+    dayIcon: WiRain,
+    nightIcon: WiNightRain,
+    dayColor: '#4682B4',
+    nightColor: '#4a525e',
+  },
+  63: {
+    dayIcon: WiRain,
+    nightIcon: WiNightRain,
+    dayColor: '#4682B4',
+    nightColor: '#4a525e',
+  },
+  65: {
+    dayIcon: WiRain,
+    nightIcon: WiNightRain,
+    dayColor: '#1E90FF',
+    nightColor: '#4a525e',
+  },
+  66: {
+    dayIcon: WiRain,
+    nightIcon: WiNightRain,
+    dayColor: '#00CED1',
+    nightColor: '#4a525e',
+  },
+  67: {
+    dayIcon: WiRain,
+    nightIcon: WiNightRain,
+    dayColor: '#00CED1',
+    nightColor: '#4a525e',
+  },
+  71: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#bfd7f8',
+    nightColor: '#6b7280',
+  },
+  73: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#bfd7f8',
+    nightColor: '#6b7280',
+  },
+  75: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#a9cbf3',
+    nightColor: '#6b7280',
+  },
+  77: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#bfd7f8',
+    nightColor: '#6b7280',
+  },
+  80: {
+    dayIcon: WiShowers,
+    nightIcon: WiNightShowers,
+    dayColor: '#4682B4',
+    nightColor: '#334c6e',
+  },
+  81: {
+    dayIcon: WiShowers,
+    nightIcon: WiNightShowers,
+    dayColor: '#1E90FF',
+    nightColor: '#334c6e',
+  },
+  82: {
+    dayIcon: WiShowers,
+    nightIcon: WiNightShowers,
+    dayColor: '#0000FF',
+    nightColor: '#334c6e',
+  },
+  85: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#bfd7f8',
+    nightColor: '#6b7280',
+  },
+  86: {
+    dayIcon: WiSnow,
+    nigthIcon: WiNightSnow,
+    dayColor: '#a9cbf3',
+    nightColor: '#6b7280',
+  },
+  95: {
+    dayIcon: WiThunderstorm,
+    nightIcon: WiNightThunderstorm,
+    dayColor: '#FFD700',
+    nightColor: '#1e3a8a',
+  },
+  96: {
+    dayIcon: WiHail,
+    nightIcon: WiNightHail,
+    dayColor: '#FFD700',
+    nightColor: '#155e75',
+  },
+  99: {
+    dayIcon: WiHail,
+    nightIcon: WiNightHail,
+    dayColor: '#FFA500',
+    nightColor: '#155e75',
+  },
+};
 
-  return iconMap[weatherCode];
+const WeatherIcon = ({ weatherCode, size = 48, isDay }) => {
+  const weatherIconCode = iconMap[weatherCode];
+  const IconComponent =
+    isDay === 1
+      ? weatherIconCode.dayIcon
+      : weatherIconCode.nightIcon || weatherIconCode.dayIcon;
+
+  const color = isDay
+    ? weatherIconCode.dayColor
+    : weatherIconCode.nightColor || weatherIconCode.dayColor;
+
+  return (
+    <IconComponent
+      size={size}
+      color={color}
+    />
+  );
 };
 
 WeatherIcon.propTypes = {
-  weatherCode: PropTypes.node,
+  weatherCode: PropTypes.node.isRequired,
+  size: PropTypes.number.isRequired,
+  isDay: PropTypes.number.isRequired,
 };
 
 export default WeatherIcon;
- 
