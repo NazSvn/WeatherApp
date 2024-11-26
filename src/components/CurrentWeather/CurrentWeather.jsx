@@ -28,7 +28,8 @@ const CurrentWeather = ({ weatherData }) => {
             <span className='weather-icon'>
               <WeatherIcon
                 weatherCode={weathercode}
-                size={50}
+                size={40}
+                isDay={weatherData.current.is_day}
               />
             </span>
           </div>
@@ -40,7 +41,7 @@ const CurrentWeather = ({ weatherData }) => {
               {Math.round(weatherData.current.apparent_temperature)}
               {weatherData.current_units.temperature_2m}
             </span>
-          </div> 
+          </div>
           <div className='weather-row'>
             <span className='weather-row-descr'>Humidity:</span>
             <span>
